@@ -1,3 +1,8 @@
+<?php
+session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -92,19 +97,24 @@
 <body>
 <header>
     <h2>SULTEN</h2>
+    <p>Logget ind som: <?php echo $_SESSION['user_mail']; ?></p>
     <nav>
-        <a href="#">Forside</a>
-        <a href="#">Bestil Mad</a>
-        <a href="#">Ugens Menu</a>
-        <a href="#">Login</a>
-        <a href="#">Opret Bruger</a>
+        <a href="index.php">Forside</a>
+        <a href="bestil.php">Bestil Mad</a>
+        <a href="menu.php">Ugens Menu</a>
+        <?php if (isset($_SESSION['user_mail'])): ?>
+            <a href="logout.php">Log ud</a>
+        <?php else: ?>
+            <a href="login.php">Login</a>
+            <a href="opretbruger.php">Opret Bruger</a>
+        <?php endif; ?>
     </nav>
 </header>
 
 <section class="hero">
     <h1>Velkommen til SULTEN!</h1>
     <p>Bestil nemt din frokost og se hvad kantinen tilbyder i denne uge. Nemt, hurtigt og lækkert!</p>
-    <a href="#" class="btn">Bestil Mad</a>
+    <a href="bestil.php" class="btn">Bestil Mad</a>
 </section>
 
 <section class="sections">

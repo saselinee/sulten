@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if(!isset($_SESSION['user_mail'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -79,12 +88,17 @@
 <body>
 <header>
   <h2>SULTEN</h2>
-  <nav>
-    <a href="index.html">Forside</a>
+    <p>Logget ind som: <?php echo $_SESSION['user_mail']; ?></p>
+    <nav>
+    <a href="index.php">Forside</a>
     <a href="bestil.html">Bestil Mad</a>
-    <a href="menu.html">Ugens Menu</a>
-    <a href="login.html">Login</a>
-    <a href="opret.html">Opret Bruger</a>
+    <a href="menu.php">Ugens Menu</a>
+    <?php if (isset($_SESSION['user_mail'])): ?>
+        <a href="logout.php">Log ud</a>
+    <?php else: ?>
+        <a href="login.php">Login</a>
+        <a href="opretbruger.php">Opret Bruger</a>
+    <?php endif; ?>
   </nav>
 </header>
 

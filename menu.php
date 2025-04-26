@@ -1,9 +1,13 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login – SULTEN</title>
+  <title>Ugens Menu – SULTEN</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -44,69 +48,68 @@
       margin-bottom: 2rem;
     }
 
-    form {
+    section.menu-dag {
       background-color: white;
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 2rem;
       border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
-    label {
-      display: block;
+    section.menu-dag h2 {
+      color: #6DBE45;
       margin-bottom: 0.5rem;
-      font-weight: 600;
     }
 
-    input[type="text"],
-    input[type="password"],
-    input[type="submit"] {
-      width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 1.5rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    input[type="submit"] {
-      background-color: #F78C1F;
-      color: white;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
+    section.menu-dag p {
+      font-size: 1rem;
     }
   </style>
 </head>
 <body>
 <header>
   <h2>SULTEN</h2>
+    <p>Logget ind som: <?php echo $_SESSION['user_mail']; ?></p>
   <nav>
-    <a href="index.html">Forside</a>
-    <a href="bestil.html">Bestil Mad</a>
+    <a href="index.php">Forside</a>
+    <a href="bestil.php">Bestil Mad</a>
     <a href="menu.html">Ugens Menu</a>
-    <a href="login.html">Login</a>
-    <a href="opret.html">Opret Bruger</a>
+  <?php if (isset($_SESSION['user_mail'])): ?>
+      <a href="logout.php">Log ud</a>
+  <?php else: ?>
+      <a href="login.php">Login</a>
+      <a href="opretbruger.php">Opret Bruger</a>
+  <?php endif; ?>
   </nav>
 </header>
 
 <main>
-  <h1>Login</h1>
-  <form action="#" method="post">
-    <section>
-      <label for="brugernavn">Brugernavn:</label>
-      <input type="text" id="brugernavn" name="brugernavn" required>
-    </section>
+  <h1>Ugens Menu</h1>
 
-    <section>
-      <label for="kodeord">Kodeord:</label>
-      <input type="password" id="kodeord" name="kodeord" required>
-    </section>
+  <section class="menu-dag">
+    <h2>Mandag</h2>
+    <p>Frikadeller med kartoffelsalat</p>
+  </section>
 
-    <section>
-      <input type="submit" value="Log ind">
-    </section>
-  </form>
+  <section class="menu-dag">
+    <h2>Tirsdag</h2>
+    <p>Kyllingewraps med grønt og dressing</p>
+  </section>
+
+  <section class="menu-dag">
+    <h2>Onsdag</h2>
+    <p>Vegetarisk pastasalat med feta</p>
+  </section>
+
+  <section class="menu-dag">
+    <h2>Torsdag</h2>
+    <p>Boller i karry med ris</p>
+  </section>
+
+  <section class="menu-dag">
+    <h2>Fredag</h2>
+    <p>Pizza-slice og salat</p>
+  </section>
 </main>
 </body>
 </html>

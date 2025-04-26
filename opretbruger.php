@@ -1,3 +1,30 @@
+<?php
+    require_once 'db.php';
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $mail = $_POST['mail'];
+        $password = $_POST['password'];
+        $bekraeftelse_kodeord = $_POST['bekraeftelse_kodeord'];
+
+        if ($password === $bekraeftelse_kodeord) {
+
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $sql = "INSERT INTO users (mail, password) VALUES ('$mail', '$hashedPassword')";
+            $result = Query($sql);
+
+            if ($result) {
+                echo "Bruger oprettet";
+            } else{
+                echo "Bruger oprettelse fejlede";
+            }
+        } else {
+            echo "Kodeordene er ikke ens";
+        }
+
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -60,6 +87,7 @@
     }
 
     input[type="text"],
+    input[type="email"],
     input[type="password"],
     input[type="submit"] {
       width: 100%;
@@ -93,11 +121,11 @@
 <header>
   <h2>SULTEN</h2>
   <nav>
-    <a href="index.html">Forside</a>
-    <a href="bestil.html">Bestil Mad</a>
-    <a href="menu.html">Ugens Menu</a>
-    <a href="login.html">Login</a>
-    <a href="opret.html">Opret Bruger</a>
+    <a href="index.php">Forside</a>
+    <a href="bestil.php">Bestil Mad</a>
+    <a href="menu.php">Ugens Menu</a>
+    <a href="login.php">Login</a>
+    <a href="opretbruger.php">Opret Bruger</a>
   </nav>
 </header>
 
@@ -105,13 +133,13 @@
   <h1>Opret Bruger</h1>
   <form action="#" method="post">
     <section>
-      <label for="brugernavn">Brugernavn:</label>
-      <input type="text" id="brugernavn" name="brugernavn" required>
+      <label for="mail">Mail:</label>
+      <input type="email" id="mail" name="mail" required>
     </section>
 
     <section>
-      <label for="kodeord">Kodeord:</label>
-      <input type="password" id="kodeord" name="kodeord" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
     </section>
 
     <section>
@@ -125,7 +153,7 @@
   </form>
 
   <div class="nav-links">
-    <a href="login.html">Har du allerede en konto? Log ind her</a>
+    <a href="login.php">Har du allerede en konto? Log ind her</a>
   </div>
 </main>
 </body>
