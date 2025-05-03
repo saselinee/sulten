@@ -1,44 +1,51 @@
 <?php
+// Inkluderer databaseforbindelse og flash-funktioner
 require_once '../includes/db.php';
 require_once '../includes/flash.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $mail = $_POST['mail'];
-        $password = $_POST['password'];
-        $bekraeftelse_kodeord = $_POST['bekraeftelse_kodeord'];
+// Tjekker om formularen er sendt via POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $mail = $_POST['mail'];
+    $password = $_POST['password'];
+    $bekraeftelse_kodeord = $_POST['bekraeftelse_kodeord'];
 
-        if ($password === $bekraeftelse_kodeord) {
+    // Tjekker om de to kodeord matcher
+    if ($password === $bekraeftelse_kodeord) {
 
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        // Hasher kodeordet før det gemmes
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            $sql = "INSERT INTO users (mail, password) VALUES ('$mail', '$hashedPassword')";
-            $result = Query($sql);
+        // Indsætter ny bruger i databasen
+        $sql = "INSERT INTO users (mail, password) VALUES ('$mail', '$hashedPassword')";
+        $result = Query($sql);
 
-            if ($result) {
-                echo "Bruger oprettet";
-            } else{
-                echo "Bruger oprettelse fejlede";
-            }
-        } else {
-            echo "Kodeordene er ikke ens";
+        // Viser om oprettelsen lykkedes
+        if ($result) {
+            echo "Bruger oprettet";
+        } else{
+            echo "Bruger oprettelse fejlede";
         }
-
+    } else {
+        // Viser fejl hvis kodeordene ikke matcher
+        echo "Kodeordene er ikke ens";
     }
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="da">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Opret Bruger – SULTEN</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opret Bruger – SULTEN</title>
+    <!-- Import af skrifttype og CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 <header>
     <h2>SULTEN</h2>
 
+    <!-- Navigation afhængig af login-status -->
     <nav id="navbar">
         <a href="index.php">Forside</a>
         <a href="bestil.php">Bestil Mad</a>
@@ -54,30 +61,30 @@ require_once '../includes/flash.php';
 </header>
 
 <main>
-  <h1>Opret Bruger</h1>
-  <form action="#" method="post">
-    <section>
-      <label for="mail">Mail:</label>
-      <input type="email" id="mail" name="mail" required>
-    </section>
+    <h1>Opret Bruger</h1>
 
-    <section>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-    </section>
+    <!-- Formular til brugeroprettelse -->
+    <form action="#" method="post">
+        <section>
+            <label for="mail">Mail:</label>
+            <input type="email" id="mail" name="mail" required>
+        </section>
 
-    <section>
-      <label for="bekraeftelse_kodeord">Bekræft Kodeord:</label>
-      <input type="password" id="bekraeftelse_kodeord" name="bekraeftelse_kodeord" required>
-      <a href="login.php">Har du allerede en konto? Log ind her</a>
-    </section>
+        <section>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </section>
 
-      <section>
-        <input type="submit" value="Opret Bruger">
-    </section>
-  </form>
+        <section>
+            <label for="bekraeftelse_kodeord">Bekræft Kodeord:</label>
+            <input type="password" id="bekraeftelse_kodeord" name="bekraeftelse_kodeord" required>
+            <a href="login.php">Har du allerede en konto? Log ind her</a>
+        </section>
 
-
+        <section>
+            <input type="submit" value="Opret Bruger">
+        </section>
+    </form>
 </main>
 </body>
 </html>
